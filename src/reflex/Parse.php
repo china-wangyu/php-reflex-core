@@ -1,10 +1,15 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: 沁塵
+ * Date: 2017/5/3
+ * Time: 23:57
+ */
+
+namespace WangYu\reflex;
 
 
-namespace LinCmsPhp\reflex;
-
-
-use LinCmsTp5\exception\ParseException;
+use WangYu\exception\ParseException;
 
 class Parse
 {
@@ -31,7 +36,7 @@ class Parse
         try{
             $this->linReflex =  $reflectionMethod;
         }catch (\Exception $exception){
-            throw new ParseException(['msg'=>'初始化反射解析类失败~']);
+            throw new ParseException(['message'=>'初始化反射解析类失败~']);
         }
     }
 

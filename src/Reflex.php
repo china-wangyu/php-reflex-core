@@ -1,11 +1,17 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: 沁塵
+ * Date: 2017/5/3
+ * Time: 23:57
+ */
+
+namespace WangYu;
 
 
-namespace LinCmsPhp;
-
-
-use LinCmsPhp\exception\ReflexException;
-use LinCmsPhp\reflex\Parse;
+use WangYu\exception\ReflexException;
+use WangYu\reflex\Parse;
+use WangYu\reflex\Reflex as ReflexModle;
 
 class Reflex
 {
@@ -20,14 +26,13 @@ class Reflex
      * @param string|object $object 类命名空间，或者一个对象
      * @param string $action 对象方法
      * @throws ReflexException
-     * @throws \LinCmsTp5\exception\ParseException
      */
     public function __construct($object,string $action)
     {
         try{
             is_string($object) && $object = new $object();
             if(!method_exists($object,$action)) throw new \Exception('类的方法·'.$action.'不存在');
-            $Reflex = (new \LinCmsPhp\reflex\Reflex($object))->getMethod($action);
+            $Reflex = (new ReflexModle($object))->getMethod($action);
             $this->parse = new Parse($Reflex);
         }catch (\Exception $exception){
             throw new ReflexException();

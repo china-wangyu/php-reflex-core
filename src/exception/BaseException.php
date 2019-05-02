@@ -6,19 +6,16 @@
  * Time: 19:50
  */
 
-namespace LinCmsTp5\exception;
+namespace WangYu\exception;
 
 
-use think\Exception;
-
-
-class BaseException extends Exception
+class BaseException extends \Exception
 {
     //HTTP状态码
     public $code = 400;
 
     //错误具体信息
-    public $msg = '参数错误';
+    public $message = '参数错误';
 
     //自定义的错误码
     public $error_code = 10000;
@@ -31,8 +28,8 @@ class BaseException extends Exception
         if (array_key_exists('code', $params)) {
             $this->code = $params['code'];
         }
-        if (array_key_exists('msg', $params)) {
-            $this->msg = $params['msg'];
+        if (array_key_exists('message', $params)) {
+            $this->message = $params['message'];
         }
         if (array_key_exists('error_code', $params)) {
             $this->error_code = $params['error_code'];

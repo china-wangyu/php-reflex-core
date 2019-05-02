@@ -9,10 +9,10 @@ composer require wangyu/reflex-core
 
 # 使用方法
 
-## 首先引入命名空间`use LinCmsPhp\Reflex`
+## 首先引入命名空间`use WangYu\Reflex`
 
 ```php
-use LinCmsPhp\Reflex;
+use WangYu\Reflex;
 ```
 
 ## 然后实例化类
@@ -56,3 +56,8 @@ $route = {
     'method' => 'get'
 }
 ```
+
+# 联系我们
+
+- QQ: `354007048` 
+- Email: `china_wangyu@aliyun.com`
