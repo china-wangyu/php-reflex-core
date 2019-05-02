@@ -4,7 +4,7 @@ lin-cms-php  核心反射类封装
 # `composer` 安装
 
 ```composer
-composer require china-wangyu/think-restful
+composer require wangyu/reflex-core
 ```
 
 # 使用方法
