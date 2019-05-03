@@ -52,8 +52,7 @@ $route = $reflex->get('route',['rule','method']);
 
 ```php
 $route = {
-    'rule' => '/v1/book/',
-    'method' => 'get'
+    ['rule' => '/v1/book/','method' => 'get']
 }
 ```
 

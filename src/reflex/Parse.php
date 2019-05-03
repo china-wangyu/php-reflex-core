@@ -94,17 +94,27 @@ class Parse
         if (empty($value)) return $value;
         if (is_array($key[0])){
             foreach ($key as $keyItem){
-                if(is_array($value[0])){
-                    $argc[] = array_map(function ($item)use($keyItem){
-                        if(count($keyItem) == count($item)) return array_combine($keyItem,$item);
-                    },$value);
-                }elseif(count($key) == count($value)){
-                    $argc = array_combine($key,$value);
-                }
+                $argc = $this->setReflexParamKeys($value,$keyItem);
             }
+        }else{
+            $argc = $this->setReflexParamKeys($value,$key);
         }
-        if(count($key) == count($value)) return array_combine($key,$value);
         return $argc;
     }
 
+    /**
+     * 设置反射参数的键名
+     * @param $item
+     * @param $key
+     * @return array|false
+     */
+    protected function setReflexParamKeys($item,$key){
+        if(is_array($item[0])){
+            return array_map(function ($i)use($key){
+                if(count($key) == count($i)) return array_combine($key,$i);
+            },$item);
+        }elseif(count($key) == count($item)){
+            return array_combine($key,$item);
+        }
+    }
 }
