@@ -15,18 +15,50 @@ composer require wangyu/reflex-core
 use WangYu\Reflex;
 ```
 
-## 然后实例化类
+## 获取对象反射实例
 
+- 获取类反射实例
 ```php
-$reflex = Reflex($object,$action);
+$reflex = Reflex($object);
+```
+
+- 获取类方法反射示例
+```php
+$reflex = Reflex($object);
+$actionReflex = $reflex->setAction($action);
 ```
 
 ## 最后获取对应的方法反射文档数据
 
 > 如果想获取下面的内容,方法的注释应当这样写
 
+**`类注释举例：`**
+```php
+/**
+ * Class Book
+ * @route('v1/book')
+ * @package app\api\controller\v1
+ */
+class Book
+{
+}
+```
 
-**`注释举例：`**
+**`获取：`**
+
+```php
+$route = $reflex->get('route',['rule']);
+```
+
+**`结果：`**
+
+```php
+$route = {
+    ['rule' => '/v1/book/']
+}
+```
+
+**`方法注释举例：`**
 ```php
 /**
  * 查询指定bid的图书
@@ -45,7 +77,7 @@ public function getBook($bid)
 **`获取：`**
 
 ```php
-$route = $reflex->get('route',['rule','method']);
+$route = $actionReflex->get('route',['rule','method']);
 ```
 
 **`结果：`**

@@ -14,9 +14,9 @@ use WangYu\exception\ParseException;
 class Parse
 {
     /**
-     * @var \ReflectionMethod $linReflex 反射对象
+     * @var string $reflexContent 反射注释内容
      */
-    public $linReflex;
+    public $reflexContent;
 
     /**
      * @var mixed $data 筛选数据
@@ -32,9 +32,9 @@ class Parse
 
 
 
-    public function __construct(\ReflectionMethod $reflectionMethod){
+    public function __construct(string $reflexContent){
         try{
-            $this->linReflex =  $reflectionMethod;
+            $this->reflexContent =  $reflexContent;
         }catch (\Exception $exception){
             throw new ParseException(['message'=>'初始化反射解析类失败~']);
         }
@@ -42,8 +42,7 @@ class Parse
 
     public function get(string $noteName,array $noteKeys = [],string $rule = ''):array {
         !empty($rule) && $this->match = $rule;
-        $comment = $this->linReflex->getDocComment();
-        $commentArray = $this->parseReflexCommentToArray($comment);
+        $commentArray = $this->parseReflexCommentToArray();
         $paramValue = $this->parseRouteParamComment($commentArray,$noteName);
         $this->data = $this->formatReflexParam($noteKeys,$paramValue);
         return $this->data;
@@ -54,10 +53,10 @@ class Parse
      * @param string $reflexString 类方法注释
      * @return array
      */
-    public function parseReflexCommentToArray(string $reflexString): array
+    public function parseReflexCommentToArray(): array
     {
-        if(empty($reflexString)) return [];
-        $newReflexString = str_replace($this->trims, '', trim($reflexString));
+        if(empty($this->reflexContent)) return [];
+        $newReflexString = str_replace($this->trims, '', trim($this->reflexContent));
         $reflexArray = explode('@', trim($newReflexString));
         return array_filter($reflexArray);
     }
@@ -91,7 +90,7 @@ class Parse
      */
     public function formatReflexParam(array $key,array $value):array {
         $argc = [];
-        if (empty($value)) return $value;
+        if (empty($value) or empty($key)) return $value;
         if (is_array($key[0])){
             foreach ($key as $keyItem){
                 $argc = $this->setReflexParamKeys($value,$keyItem);
