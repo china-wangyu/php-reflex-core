@@ -30,7 +30,7 @@ class Reflex
     public function __construct($object,string $action)
     {
         try{
-            if ($object instanceof  \ReflectionClass) $object = new ($object->getName())();
+            if ($object instanceof  \ReflectionClass) $object = $object->getName();
             is_string($object) && $object = new $object();
             if(!method_exists($object,$action)) throw new \Exception('类的方法·'.$action.'不存在');
             $Reflex = (new ReflexModle($object))->getMethod($action);
