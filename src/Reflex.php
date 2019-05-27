@@ -47,8 +47,9 @@ class Reflex
     }
 
     # 设置类反射解析
-    public function setObject(object $object):self {
+    public function setObject($object):self {
         try {
+            if(!is_object($object)) throw new \Exception('需要一个类。作为参数~');
             $this->object = $object;
             $this->reflex = new ReflexModle($this->object);
             $reflexDoc = $this->reflex->getDocComment();
