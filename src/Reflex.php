@@ -37,12 +37,30 @@ class Reflex
     public function __construct($object,string $action = '')
     {
         try{
+            $this->check();
             if ($object instanceof  \ReflectionClass) $object = $object->getName();
             is_string($object) && $object = new $object();
             $this->setObject($object);
             if (!empty($action))$this->setAction($action);
         }catch (\Exception $exception){
             throw new ReflexException();
+        }
+    }
+
+    // 扩展运行检验
+    private function check(){
+        try{
+            // 判断PHP版本是否大于等于7.1.0
+            if (version_compare(PHP_VERSION,'7.1.0','<')){
+                throw new \Exception('请安装PHP大于等于7.1.0的版本');
+            }
+
+            //判断是否开启加载文件函数注释
+            if(intval(ini_get('opcache.save_comments')) > 1) {
+                throw new \Exception('请修改php.ini配置：opcache.save_comments=1或直接注释掉此配置(无效请在 etc/php.d/ext-opcache.ini 文件中修改)');
+            }
+        }catch (\Exception $exception){
+            throw new ReflexException(['message'=>$exception->getMessage()]);
         }
     }
 
