@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: 沁塵
- * Date: 2017/4/26
- * Time: 19:50
+ * Created by User: wene<china_wangyu@aliyun.com> Date: 2019/7/3 Time: 10:00
  */
 
 namespace WangYu\exception;
@@ -22,18 +19,17 @@ class BaseException extends \Exception
 
     public function __construct($params = [])
     {
-        if (!is_array($params)) {
-            return;
+        isset($params['code']) && $this->code = $params['code'];
+        isset($params['message']) && $this->message = $params['message'];
+        isset($params['error_code']) && $this->error_code = $params['error_code'];
+        if(class_exists('\LinCmsTp5\exception\BaseException')){
+            throw  new \LinCmsTp5\exception\BaseException([
+                'code' => $this->code,
+                'msg' => $this->message,
+                'error_code' => $this->error_code,
+            ]);
         }
-        if (array_key_exists('code', $params)) {
-            $this->code = $params['code'];
-        }
-        if (array_key_exists('message', $params)) {
-            $this->message = $params['message'];
-        }
-        if (array_key_exists('error_code', $params)) {
-            $this->error_code = $params['error_code'];
-        }
+        parent::__construct($this->error_code.$this->message,$this->code);
     }
 
 }

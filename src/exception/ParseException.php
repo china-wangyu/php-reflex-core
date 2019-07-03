@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: 沁塵
- * Date: 2017/5/3
- * Time: 23:57
+ * Created by User: wene<china_wangyu@aliyun.com> Date: 2019/7/3 Time: 10:00
  */
 
 namespace WangYu\exception;

@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: 沁塵
- * Date: 2017/5/3
- * Time: 23:57
+ * Created by User: wene<china_wangyu@aliyun.com> Date: 2019/7/3 Time: 10:00
  */
 
 namespace WangYu;
@@ -95,19 +92,7 @@ class Reflex
      * @param string $noteName 反射出的注释内容，取用的参数名称
      * @param array $noteKeys 参数值的数组keys
      * @param string $rule 解析规则
-     * @inheritDoc
-     * 反射的方法内容，自动格式化数据后会变成一个数组
-    注释内容：
-    /**
-     * @route('rule','method')
-     * @param('name','doc','rule')
-     *\/
-    格式如下：
-    array{
-    0 => 'route('rule','method')',
-    0 => 'param('name','doc','rule')',
-    }
-     * @inheritDoc 因此希望大家不要盲目的设置rule,默认就可以了
+     * @inheritDoc [文档](https://github.com/china-wangyu/php-reflex-core)
      */
     public function get(string $noteName,array $noteKeys = [],string $rule = ''){
         return $this->parse->get($noteName,$noteKeys,$rule);
