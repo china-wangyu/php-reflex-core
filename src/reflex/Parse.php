@@ -1,6 +1,9 @@
 <?php
 /**
- * Created by User: wene<china_wangyu@aliyun.com> Date: 2019/7/3 Time: 10:00
+ * Created by PhpStorm.
+ * User: 沁塵
+ * Date: 2017/5/3
+ * Time: 23:57
  */
 
 namespace WangYu\reflex;
@@ -25,9 +28,23 @@ class Parse
      */
     private $trims = array('     ','  ', '/**', '*/', "\t", "\n", "\r", '$', '*');
 
-    private $match = '/^%s+?\((\'?.+?\'?[,.+?]?)\)/is';
+    /**
+     * @var array $pattern 重置特殊规则
+     */
+    private $pattern = [
+        'match' => '/\'(,)\'/i',
+        'replace' => '\'~\''
+    ];
 
+    /**
+     * @var string $match 注释内容清洗规则
+     */
+    private $match = '/^%s+?\((\'?.+?\'?[~.+?]?)\)/is';
 
+    /**
+     * @var string $delimiter 提取内容分隔符
+     */
+    private $delimiter = '~';
 
     public function __construct(string $reflexContent){
         try{
@@ -37,6 +54,13 @@ class Parse
         }
     }
 
+    /**
+     * 获取
+     * @param string $noteName
+     * @param array $noteKeys
+     * @param string $rule
+     * @return array
+     */
     public function get(string $noteName,array $noteKeys = [],string $rule = ''):array {
         !empty($rule) && $this->match = $rule;
         $commentArray = $this->parseReflexCommentToArray();
@@ -69,11 +93,12 @@ class Parse
         $match = sprintf($this->match,$tag);
         foreach ($comment as $item){
             if(!strstr($item,$tag))continue;
+            $item = preg_replace($this->pattern['match'], $this->pattern['replace'], $item);
             preg_match($match,$item,$res,PREG_OFFSET_CAPTURE);
             if(!isset($res[1]))continue;
             $res = $res[1][0];
             $item = str_replace('\'','',trim($res));
-            $item = explode(',',$item);
+            $item = explode($this->delimiter,$item);
             $argc = array_merge([$item],$argc);
         }
         return $argc;
