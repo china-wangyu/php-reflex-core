@@ -60,26 +60,38 @@ class Parse
      * @param array $noteKeys
      * @param string $rule
      * @return array
+     * @throws \Exception
      */
     public function get(string $noteName,array $noteKeys = [],string $rule = ''):array {
-        !empty($rule) && $this->match = $rule;
-        $commentArray = $this->parseReflexCommentToArray();
-        $paramValue = $this->parseRouteParamComment($commentArray,$noteName);
-        $this->data = $this->formatReflexParam($noteKeys,$paramValue);
-        return $this->data;
+        try{
+            !empty($rule) && $this->match = $rule;
+            $commentArray = $this->parseReflexCommentToArray();
+            $paramValue = $this->parseRouteParamComment($commentArray,$noteName);
+            $this->data = $this->formatReflexParam($noteKeys,$paramValue);
+            return $this->data;
+        }catch (\Exception $exception){
+            throw new \ParseException(['message'=>$exception->getMessage()]);
+        }
     }
 
     /**
      * 清洗数据
-     * @param string $reflexString 类方法注释
      * @return array
+     * @throws \Exception
      */
     public function parseReflexCommentToArray(): array
     {
-        if(empty($this->reflexContent)) return [];
-        $newReflexString = str_replace($this->trims, '', trim($this->reflexContent));
-        $reflexArray = explode('@', trim($newReflexString));
-        return array_filter($reflexArray);
+        try{
+            if(empty($this->reflexContent)) return [];
+            if (strstr($this->reflexContent,'~')){
+                throw new \Exception('请不要在注释内容添加‘~’符号，‘~’会影响注释内容提取');
+            }
+            $newReflexString = str_replace($this->trims, '', trim($this->reflexContent));
+            $reflexArray = explode('@', trim($newReflexString));
+            return array_filter($reflexArray);
+        }catch (\Exception $exception){
+            throw new \Exception($exception->getMessage());
+        }
     }
 
     /**
@@ -87,21 +99,26 @@ class Parse
      * @param array $comment
      * @param string $tag
      * @return array
+     * @throws \Exception
      */
     protected function parseRouteParamComment(array $comment,string $tag):array {
-        $argc = [];
-        $match = sprintf($this->match,$tag);
-        foreach ($comment as $item){
-            if(!strstr($item,$tag))continue;
-            $item = preg_replace($this->pattern['match'], $this->pattern['replace'], $item);
-            preg_match($match,$item,$res,PREG_OFFSET_CAPTURE);
-            if(!isset($res[1]))continue;
-            $res = $res[1][0];
-            $item = str_replace('\'','',trim($res));
-            $item = explode($this->delimiter,$item);
-            $argc = array_merge([$item],$argc);
+        try{
+            $argc = [];
+            $match = sprintf($this->match,$tag);
+            foreach ($comment as $item){
+                if(!strstr($item,$tag))continue;
+                $item = preg_replace($this->pattern['match'], $this->pattern['replace'], $item);
+                preg_match($match,$item,$res,PREG_OFFSET_CAPTURE);
+                if(!isset($res[1]))continue;
+                $res = $res[1][0];
+                $item = str_replace('\'','',trim($res));
+                $item = explode($this->delimiter,$item);
+                $argc = array_merge([$item],$argc);
+            }
+            return $argc;
+        }catch (\Exception $exception){
+            throw new \Exception($exception->getMessage());
         }
-        return $argc;
     }
 
     /**
@@ -109,18 +126,23 @@ class Parse
      * @param array $key
      * @param array $value
      * @return array
+     * @throws \Exception
      */
     public function formatReflexParam(array $key,array $value):array {
-        $argc = [];
-        if (empty($value) or empty($key)) return $value;
-        if (is_array($key[0])){
-            foreach ($key as $keyItem){
-                $argc = $this->setReflexParamKeys($value,$keyItem);
+        try{
+            $argc = [];
+            if (empty($value) or empty($key)) return $value;
+            if (is_array($key[0])){
+                foreach ($key as $keyItem){
+                    $argc = $this->setReflexParamKeys($value,$keyItem);
+                }
+            }else{
+                $argc = $this->setReflexParamKeys($value,$key);
             }
-        }else{
-            $argc = $this->setReflexParamKeys($value,$key);
+            return $argc;
+        }catch (\Exception $exception){
+            throw new \Exception($exception->getMessage());
         }
-        return $argc;
     }
 
     /**
@@ -128,14 +150,19 @@ class Parse
      * @param $item
      * @param $key
      * @return array|false
+     * @throws \Exception
      */
     protected function setReflexParamKeys($item,$key){
-        if(is_array($item[0])){
-            return array_map(function ($i)use($key){
-                if(count($key) == count($i)) return array_combine($key,$i);
-            },$item);
-        }elseif(count($key) == count($item)){
-            return array_combine($key,$item);
+        try{
+            if(is_array($item[0])){
+                return array_map(function ($i)use($key){
+                    if(count($key) == count($i)) return array_combine($key,$i);
+                },$item);
+            }elseif(count($key) == count($item)){
+                return array_combine($key,$item);
+            }
+        }catch (\Exception $exception){
+            throw new \Exception($exception->getMessage());
         }
     }
 }
