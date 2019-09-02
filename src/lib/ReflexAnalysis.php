@@ -8,7 +8,7 @@ namespace WangYu\lib;
  * Class AnnotationAnalyse 注解解析规则
  * @package WangYu\annotation\lib
  */
-class AnnotationAnalysis
+class ReflexAnalysis
 {
     /**
      * @var string $annotation 注解内容

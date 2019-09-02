@@ -1,5 +1,5 @@
 {
-  "name": "wangyu/annotation",
+  "name": "wangyu/reflex-core",
   "description": "原生PHP的反射注释模型,composer扩展",
   "authors": [
     {

@@ -1,30 +1,30 @@
-# php-annotation-core
+# php-reflex-core
 php 核心反射类封装
 
 # `composer` 安装
 
 ```composer
-composer require wangyu/annotation
+composer require wangyu/reflex-core
 ```
 
 # 使用方法
 
-## 首先引入命名空间`use WangYu\Annotation`
+## 首先引入命名空间`use WangYu\Reflex`
 
 ```php
-use WangYu\Annotation;
+use WangYu\Reflex;
 ```
 
 ## 获取对象反射实例
 
 - 获取类反射实例
 ```php
-$reflex = Annotation($object);
+$reflex = Reflex($object);
 ```
 
 - 获取类方法反射示例
 ```php
-$reflex = Annotation($object);
+$reflex = Reflex($object);
 $actionReflex = $reflex->setMethod($action);
 ```
 

@@ -4,9 +4,9 @@
 
 namespace WangYu;
 
-use WangYu\lib\AnnotationAnalysis;
+use WangYu\lib\ReflexAnalysis;
 
-final class Annotation
+final class Reflex
 {
     /**
      * @var \ReflectionClass $Reflection
@@ -19,12 +19,12 @@ final class Annotation
     protected $rm;
 
     /**
-     * @var AnnotationAnalysis $analyse 解析器
+     * @var ReflexAnalysis $analyse 解析器
      */
     protected $analyse;
 
     /**
-     * Annotation constructor.
+     * Reflex constructor.
      * @param $object
      * @throws \Exception
      */
@@ -35,7 +35,7 @@ final class Annotation
         }
         try {
             $this->rc = new \ReflectionClass($object);
-            $this->analyse = new AnnotationAnalysis($this->rc->getDocComment());
+            $this->analyse = new ReflexAnalysis($this->rc->getDocComment());
         } catch (\Exception $exception) {
             throw new  \Exception(get_class($object) . '类不存在');
         }
@@ -44,14 +44,14 @@ final class Annotation
     /**
      * 设置方法
      * @param string $method
-     * @return Annotation
+     * @return Reflex
      * @throws \Exception
      */
     public function setMethod(string $method): self
     {
         try {
             $this->rm = $this->rc->getMethod($method);
-            $this->analyse = new AnnotationAnalysis($this->rm->getDocComment());
+            $this->analyse = new ReflexAnalysis($this->rm->getDocComment());
             return $this;
         } catch (\Exception $exception) {
             throw new  \Exception($this->rc->getName() . '类不存在');
