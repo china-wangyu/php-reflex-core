@@ -1,5 +1,5 @@
-# lin-cms-php-reflex-core
-lin-cms-php  核心反射类封装
+# php-reflex-core
+php 核心反射类封装
 
 # `composer` 安装
 
