@@ -6,7 +6,7 @@ namespace WangYu;
 
 use WangYu\lib\ReflexAnalysis;
 
-final class Reflex
+class Reflex
 {
     /**
      * @var \ReflectionClass $Reflection
@@ -28,7 +28,7 @@ final class Reflex
      * @param $object
      * @throws \Exception
      */
-    public function __construct($object)
+    public final function __construct($object)
     {
         if (!is_object($object)) {
             throw new  \Exception('获取注解内容失败，参数要求对象，你给的是' . gettype($object));
@@ -47,7 +47,7 @@ final class Reflex
      * @return Reflex
      * @throws \Exception
      */
-    public function setMethod(string $method): self
+    public final function setMethod(string $method): self
     {
         try {
             $this->rm = $this->rc->getMethod($method);
@@ -66,7 +66,7 @@ final class Reflex
      * @return array
      * @throws \Exception
      */
-    public function get(string $func, $keys = null){
+    public final function get(string $func, $keys = null){
         return $this->analyse->get($func, $keys);
     }
 }
