@@ -1,6 +1,6 @@
 {
   "name": "wangyu/reflex-core",
-  "description": "原生PHP的reflex反射注释模型composer扩展",
+  "description": "原生PHP的反射注释模型,composer扩展",
   "authors": [
     {
       "name": "wangyu",
