@@ -25,7 +25,7 @@ $reflex = Reflex($object);
 - 获取类方法反射示例
 ```php
 $reflex = Reflex($object);
-$actionReflex = $reflex->setAction($action);
+$actionReflex = $reflex->setMethod($action);
 ```
 
 ## 最后获取对应的方法反射文档数据
