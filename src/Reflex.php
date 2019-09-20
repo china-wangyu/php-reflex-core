@@ -5,9 +5,13 @@
 namespace WangYu;
 
 use WangYu\lib\ReflexAnalysis;
+use WangYu\lib\ReflexCheck;
 
 class Reflex
 {
+
+    use ReflexCheck;
+
     /**
      * @var \ReflectionClass $Reflection
      */
@@ -30,9 +34,22 @@ class Reflex
      */
     public final function __construct($object)
     {
-        if (!is_object($object)) {
-            throw new  \Exception('获取注解内容失败，参数要求对象，你给的是' . gettype($object));
-        }
+        $this->check($object);
+        $this->setObject($object);
+    }
+
+    public function check($object){
+        ReflexCheck::checkPHPVersion();
+        ReflexCheck::checkPHPEnv();
+        ReflexCheck::checkParamIsObject($object);
+    }
+
+    /**
+     * 设置类
+     * @param $object
+     * @throws \Exception
+     */
+    public function setObject($object){
         try {
             $this->rc = new \ReflectionClass($object);
             $this->analyse = new ReflexAnalysis($this->rc->getDocComment());
