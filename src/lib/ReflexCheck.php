@@ -12,7 +12,7 @@ trait ReflexCheck
 
     public static function checkParamIsObject($param){
         if (!is_object($param)) {
-            throw new  \Exception('获取注解内容失败，参数要求对象，你给的是' . gettype($object));
+            throw new  \Exception('获取注解内容失败，参数要求对象，你给的是' . gettype($param));
         }
     }
 
