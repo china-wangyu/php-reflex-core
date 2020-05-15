@@ -78,7 +78,7 @@ class ReflexAnalysis
         $this->toArray();
         $this->regular();
         $this->format();
-        return $this->data;
+        return $this->data ?? [$func=>[]];
     }
 
     /**
