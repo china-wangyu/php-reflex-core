@@ -78,7 +78,7 @@ class ReflexAnalysis
         $this->toArray();
         $this->regular();
         $this->format();
-        return $this->data ?? [$func=>[]];
+        return $this->data;
     }
 
     /**
@@ -126,7 +126,10 @@ class ReflexAnalysis
                 if (!strstr($item, $this->func)) continue;
                 $item = preg_replace($this->pattern['match'], $this->pattern['replace'], $item);
                 preg_match($match, $item, $res, PREG_OFFSET_CAPTURE);
-                if (!isset($res[1])) continue;
+                if (!isset($res[1])) {
+                    $argc = [true];
+                    continue;
+                }
                 $item = str_replace('\'', '', trim($res[1][0]));
                 $item = explode($this->delimiter, $item);
                 $argc = array_merge([$item], $argc);
