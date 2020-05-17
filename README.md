@@ -88,6 +88,41 @@ $route = {
 }
 ```
 
+## 判断某个注解是否存在
+
+**`方法注释举例：`**
+```php
+/**
+ * 查询指定bid的图书
+ * @route('v1/book/:bid','get')
+ * @param Request $bid
+ * @param('bid','bid的图书','require')
+ * @auth()
+ * @return mixed
+ */
+public function getBook($bid)
+{
+    $result = BookModel::get($bid);
+    return $result;
+}
+```
+
+
+**`获取：`**
+
+```php
+$route = $actionReflex->isExist('auth');
+```
+
+**`结果：`**
+
+> 结果为true代表存在，为false代表不存在
+
+```php
+$route = true;  # 代表存在
+```
+
+
 # 联系我们
 
 - QQ: `354007048` 
