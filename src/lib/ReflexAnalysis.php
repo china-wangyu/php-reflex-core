@@ -58,6 +58,11 @@ class ReflexAnalysis
      */
     protected $keys;
 
+    /**
+     * @var mixed $isExist 判断注解函数是否存在
+     */
+    protected $isExist;
+
     public function __construct(string $annotation)
     {
         $this->annotation = $annotation;
@@ -74,11 +79,23 @@ class ReflexAnalysis
     {
         $this->func = $func;
         $this->keys = $keys;
-        $this->trim();
         $this->toArray();
         $this->regular();
         $this->format();
         return $this->data;
+    }
+
+    /**
+     * 检测方法是否存在
+     * @param string $func
+     * @return bool
+     * @throws \Exception
+     */
+    public function check(string $func)
+    {
+        $this->trim();
+        $this->isExist = strstr($this->data, $this->mark . $func) ? true : false;
+        return $this->isExist;
     }
 
     /**
@@ -126,10 +143,7 @@ class ReflexAnalysis
                 if (!strstr($item, $this->func)) continue;
                 $item = preg_replace($this->pattern['match'], $this->pattern['replace'], $item);
                 preg_match($match, $item, $res, PREG_OFFSET_CAPTURE);
-                if (!isset($res[1])) {
-                    $argc = [true];
-                    continue;
-                }
+                if (!isset($res[1])) continue;
                 $item = str_replace('\'', '', trim($res[1][0]));
                 $item = explode($this->delimiter, $item);
                 $argc = array_merge([$item], $argc);
