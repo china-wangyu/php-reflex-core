@@ -75,6 +75,15 @@ class Reflex
         }
     }
 
+    /**
+     * 检查函数是否存在
+     * @param string $func
+     * @return bool
+     * @throws \Exception
+     */
+    public final function isExist(string $func){
+        return $this->analyse->check($func);
+    }
 
     /**
      * 获取自定义注解内容
@@ -84,6 +93,6 @@ class Reflex
      * @throws \Exception
      */
     public final function get(string $func, $keys = null){
-        return $this->analyse->get($func, $keys);
+        return $this->isExist($func) ? $this->analyse->get($func, $keys) : [];
     }
 }
